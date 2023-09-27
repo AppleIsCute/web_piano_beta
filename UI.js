@@ -312,7 +312,8 @@ const change_mode = document.querySelectorAll(".changemode");
         ScaleDisable();
         pianoResume();
         ScaleMode = false;
-        Chord_txt.innerHTML = "";
+        _interval = false; 
+        Chord_txt.innerHTML = "";        
         mode_switch[0].style.color = "white"
         mode_switch[1].style.color = "#7891a5"
         change_mode[0].style.transform = "none";
@@ -333,7 +334,7 @@ const change_mode = document.querySelectorAll(".changemode");
         pianoResume();
         teaching_Modes = 2;
         ScaleMode = true;
-
+        _interval = false;        
         Chord_txt.innerHTML = "";
         document.getElementById('second_chord').innerHTML = '';
         mode_switch[1].style.color = "white"
