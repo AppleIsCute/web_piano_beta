@@ -270,7 +270,7 @@ function change_length() {
 
     longer = length_switch.value * 2;
     if (longer == 2) { tone_length = "8n"; }// quarter note
-    else if (longer == 1) { tone_length = "16n"; longer = "1" + " "} //eighth note
+    else if (longer == 1) { tone_length = "16n"; longer = "1" + " ";} //eighth note
     else if (longer == 4) { tone_length = "4n"; }  //half
 
     else if (longer == 8) { tone_length = "2n"; } // whole
