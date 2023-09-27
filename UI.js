@@ -1,17 +1,18 @@
-﻿
-let teaching_Modes = 0;
+﻿let teaching_Modes = 0;
 let staff_switch= false;/// staff record or not
 let ScaleMode;
-let markerpicker;
+let markerpicker ="red";
 let _write = false;
-let no_dots = false;
+let no_dots = true;
 let b_switch = false;
 let edit_notes = true;
+let _pitch = 1;
+let _interval = false;
 
 const keyboard_note = document.querySelectorAll("keyboard-note");
 
 function marker_change_color() {
-   
+    no_dots = false;
     const marker = document.getElementById("marker");
     const clear_dot = document.getElementById("clear-dot");
     const icon = document.getElementById("fds");
@@ -26,7 +27,7 @@ function marker_change_color() {
 
 
 function pickcolor(element) {
-    no_dots = false;
+    
     markerpicker = element.style.background;
     
 
@@ -62,14 +63,14 @@ function change_clef(element) {
         clef_type = "bass"
         if (staff_switch == false) {
             writer = "";
-            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + writer;
+            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n " + writer;
             load();
         }
         if (staff_switch == true) {
 
             recorder.push(writer);
             console.log(recorder, writer.length);
-            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('');
+            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n " + recorder.join('');
             load();
 
         }
@@ -81,7 +82,7 @@ function change_clef(element) {
         clef_type = "treble"
         if (staff_switch == false) {
             writer = "";
-            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + writer;
+            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + writer;
             load();
         }
 
@@ -89,7 +90,7 @@ function change_clef(element) {
 
             recorder.push(writer);
             console.log(recorder, writer.length);
-            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;
+            abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
             load();
 
         }
@@ -113,7 +114,7 @@ function write_or_not(element) {
         png_color.style.filter = " invert(0.8)";
        // writer = "";
 
-        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('')+ writer;
+        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('')+ writer;
         load();
     }
 
@@ -123,14 +124,14 @@ function write_or_not(element) {
         writer = '';
         recorder.push(writer);
         
-        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;
+        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n " + recorder.join('') + writer;
         load();
     }
 }
 
 function clear_staff() {
     recorder.length = 0;
-    abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder;
+    abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n " + recorder;
     staff_add = 900;
     document.getElementsByClassName("target-staff").scrollLeft = 0;
     load();
@@ -235,7 +236,7 @@ function Enable_blackboard() {
 
 function TextSizeUpdate(val) {
     document.getElementById('chord').style.fontSize=(val)+"px";
-    document.getElementById('second_chord').style.fontSize = (val-30) + "px";
+    document.getElementById('second_chord').style.fontSize = (val) + "px";
     
 }
 
@@ -268,10 +269,15 @@ function change_length() {
     const length_switch = document.getElementById("note-length");
 
     longer = length_switch.value * 2;
-    if (longer == 2) { tone_length = "8n"; }
-    else if (longer == 4) { tone_length = "4n"; }
-    else if (longer == 8) { tone_length = "2n";}
+    if (longer == 2) { tone_length = "8n"; }// quarter note
+    else if (longer == 1) { tone_length = "16n"; } //eighth note
+    else if (longer == 4) { tone_length = "4n"; }  //half
+
+    else if (longer == 8) { tone_length = "2n"; } // whole
+
+    else if (longer == 3) { tone_length = "6n"; }// dotted
     console.log(longer);
+
     load();
 
 }
@@ -310,26 +316,31 @@ const change_mode = document.querySelectorAll(".changemode");
         mode_switch[0].style.color = "white"
         mode_switch[1].style.color = "#7891a5"
         change_mode[0].style.transform = "none";
+        mode_switch[2].style.color = "#7891a5"
         edit_notes = true;
         writer = '';
         recorder.push(writer);
-        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;
+        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
         load();
         document.getElementById("panel").style.visibility = "collapse";
+        document.getElementById("clear").disabled = false;
 
     });
     mode_switch[1].addEventListener('click', function () {
+        
         ScaleDisable();
+        
         pianoResume();
         teaching_Modes = 2;
         ScaleMode = true;
 
         Chord_txt.innerHTML = "";
+        document.getElementById('second_chord').innerHTML = '';
         mode_switch[1].style.color = "white"
         mode_switch[0].style.color = "#7891a5"
-        change_mode[0].style.transform = "translateX(120px)";
+        mode_switch[2].style.color = "#7891a5"
+        change_mode[0].style.transform = "translateX(80px)";
         edit_notes = false;
-
         document.getElementById("clear").disabled = true;
 
        
@@ -343,6 +354,33 @@ const change_mode = document.querySelectorAll(".changemode");
 
     });
 
+mode_switch[2].addEventListener('click', function () {
+
+    ScaleDisable();
+
+    pianoResume();
+    teaching_Modes = 3;
+    ScaleMode = false;
+    _interval = true;
+    //interval_cal();
+
+
+    Chord_txt.innerHTML = "";
+    mode_switch[2].style.color = "white"
+    mode_switch[0].style.color = "#7891a5"
+    mode_switch[1].style.color = "#7891a5"
+    change_mode[0].style.transform = "translateX(180px)";
+    edit_notes = false;
+
+    document.getElementById("clear").disabled = true;
+
+
+    const scroll = document.getElementsByClassName("target-staff");
+    scroll[0].scrollLeft = 0;
+    
+
+});
+
 
 
 
@@ -352,37 +390,38 @@ const change_mode = document.querySelectorAll(".changemode");
 
 function pianoResume() {
     
+    
 
-
-    for (let i = 24; i < 49; i++) {
+    for (let i = 12; i < 73; i++) {
         var targetKey = document.getElementById("key" + (25 + (i - 24)));
-
+        var note_names = [];
         nameText[i] = document.getElementById("name" + (25 + (i - 24)));
+
+        if (_pitch == 1) { note_names = note_sequence; } else { note_names = pitch_name02;}
        
 
         if (i % 12 === 0 || i % 12 === 2 || i % 12 === 4 || i % 12 === 5 || i % 12 === 7 || i % 12 === 9 || i % 12 === 11) {
             targetKey.style.background = 'linear-gradient(#fff 96%, #eee 4%)';
-            nameText[i].innerHTML = note_sequence[i].substr(-3, 1);
-
-           
-            
+            nameText[i].innerHTML = note_names[i];
+  
         }
         else {
-            targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; nameText[i].innerHTML = note_sequence[i].substr(-3, 2);
+            targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; nameText[i].innerHTML = note_names[i];
+
             if (b_switch == true) {
                 if (nameText[i].innerHTML.length > 1) {
 
-                    if (nameText[i].innerHTML.substr(-3, 1) == 'C') { nameText[i].innerHTML = "D♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'D') { nameText[i].innerHTML = "E♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'F') { nameText[i].innerHTML = "G♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'A') { nameText[i].innerHTML = "B♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'G') { nameText[i].innerHTML = "A♭"; }
+                    if (nameText[i].innerHTML.substr(-3, 1) == 'C') { nameText[i].innerHTML = "D♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'D') { nameText[i].innerHTML = "E♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'F') { nameText[i].innerHTML = "G♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'A') { nameText[i].innerHTML = "B♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'G') { nameText[i].innerHTML = "A♭" + nameText[i].innerHTML.substr(-1, 1); }
 
                 }
-            }}
-        nameText[24].innerHTML = note_sequence[24].substr(-3, 2) ;
-        nameText[36].innerHTML = note_sequence[36].substr(-3, 2) ;
-        nameText[48].innerHTML = note_sequence[48].substr(-3, 2);
+            }
+
+        }
+       
 
     }
 }
@@ -422,7 +461,6 @@ function make_sheet(test_notes) {
     else { }
     //console.log(test_notes.substr(-3, 1) + "b"+test_notes.substr(-1,1));
 }
-
 
 
 
