@@ -1,4 +1,4 @@
-﻿let isRunning = false;
+let isRunning = false;
 let longer = 2;
 let tone_length="8n";
 
