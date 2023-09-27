@@ -1,31 +1,67 @@
-﻿<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js" integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ==" crossorigin=“anonymous"></script>-->
-    <script  type="text/javascript" src="./Tone.js"></script>
-    <script type="text/javascript" src="./tonal.min.js"></script>
-    
-    <link href="./abcjs-audio.css" media="all" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="./abcjs-basic.js"></script>
+    <script type="text/javascript" src="Tone.js"></script>
+    <script type="text/javascript" src="tonal.min.js"></script>
 
-    
+    <link href="abcjs-audio.css" media="all" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="abcjs-basic.js"></script>
+
+
 
 
     <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="midi-to-sheet-music.js"></script>
+    <!--<script src="midi-to-sheet-music.js"></script>-->
 
     <script src="keyboard_manage.js"></script>
-    
+    <script src="midi-to-sheet-music.js"></script>
+
 
     <meta charset="utf-8" />
 
     <title> WEB PIANO (beta)</title>
 
 
+    <style type="text/css">
+        @media print {
+            body {
+                visibility: collapse;
+                
+               
+            }
+            header {
+                visibility: collapse;
+                display: none;
+            }
+
+            #target svg {
+                visibility: visible;
+                position: absolute;
+                top:0px;
+                left:0px;
+                
+                
+            }
+            .select-list {
+                box-shadow:none;
+            }
+            .tab_btn {
+                visibility:hidden;
+            }
+            
+        }
+
+      
+    </style>
+
+
+
+
 </head>
-<body onload="load()">
+<body onload="abcString ='';load(); playbackload();">
 
     <div class="web-head">
         <h1>WEB PIANO</h1>
@@ -41,13 +77,20 @@
             <div class="color-picker" style="background:red;" onclick="pickcolor(this);"></div>
             <div class="color-picker" style="background: #954CFF; " onclick="pickcolor(this);"></div>
             <div class="color-picker" style="background-image: url(hide.svg); background-size: 20px;  background-repeat: no-repeat; background-position: center center; " onclick="no_dots = true;"></div>
+
         </div>
-        <div class="hints" id="hint"style="visibility:hidden; position :absolute;bottom:72px;left:10px; width:300px;height:50px; text-align:left;background:grey;color:white; padding:5px; opacity:0.6;">Click on keys to make marks, click me to select or disable marker color.</div>
-        <div class="image" id="clear-dot" style=" margin-left:50px; " title="clear dots" >
-            <img src="redo.svg"/>
+        <div class="hints" id="hint" style="visibility:hidden; position :absolute;bottom:72px;left:10px; width:300px;height:50px; text-align:left;background:grey;color:white; padding:5px; opacity:0.6;">Click on keys to make marks, click me to select or disable marker color.</div>
+        <div class="image" id="clear-dot" style=" margin-left:50px; " title="clear dots">
+            <img src="redo.svg" />
         </div>
 
+        <div id="" style="margin-left:80%; margin-top:5px;background: inherit; width: 250px; height:30px;  align-items: center; align-content:center;" title="change pitch notation">
+            <select onchange=" change_pitch_name();" id="pitch-name" style=" color: white; border-radius: 15px; padding:5px;font-size: 12px; height: 30px; width:100%;border: none; background: inherit; box-shadow: 5px 5px 13px #5e7181, -3px -3px 13px #a0c1db;">
+                <option value="1"> International pitch notation (IPN) </option>
+                <option value="2"> Helmholtz pitch notation </option>
 
+            </select>
+        </div>
     </div>
     <div class="container">
 
@@ -102,55 +145,55 @@
             <span id="word2"></span>
         </div>-->
 
-        <div id="key13" class="key white" data-value="C2" >
+        <div id="key13" class="key white" data-value="C2">
 
-            <span id="name13"> </span>
+            <span id="name13">C2</span>
             <span class="word2"></span>
-            
+
 
         </div>
-        <div id="key14" class="key black" data-value="C#2"  >
-            <span id="name14"> </span>
+        <div id="key14" class="key black" data-value="C#2">
+            <span id="name14">C#2</span>
             <span class="word2"></span>
         </div>
-        <div id="key15" class="key white"  data-value="D2" >
-            <span id="name15"> </span>
+        <div id="key15" class="key white" data-value="D2">
+            <span id="name15">D2</span>
             <span class="word2"></span>
         </div>
-        <div id="key16" class="key black" data-value="D#2" >
-            <span id="name16"> </span>
+        <div id="key16" class="key black" data-value="D#2">
+            <span id="name16">D#2</span>
             <span class="word2"></span>
         </div>
         <div id="key17" class="key white" data-value="E2">
-            <span id="name17"> </span>
+            <span id="name17">E2</span>
             <span class="word2"></span>
         </div>
-        <div id="key18" class="key white"data-value="F2">
-            <span id="name18"> </span>
+        <div id="key18" class="key white" data-value="F2">
+            <span id="name18">F2</span>
             <span class="word2"></span>
-        </div> 
+        </div>
         <div id="key19" class="key black" data-value="F#2">
-            <span id="name19"> </span>
+            <span id="name19">F#2</span>
             <span class="word2"></span>
         </div>
-        <div id="key20" class="key white"data-value="G2">
-            <span id="name20"> </span>
+        <div id="key20" class="key white" data-value="G2">
+            <span id="name20">G2</span>
             <span class="word2"></span>
         </div>
         <div id="key21" class="key black" data-value="G#2">
-            <span id="name21"> </span>
+            <span id="name21">G#2</span>
             <span class="word2"></span>
         </div>
-        <div id="key22" class="key white" data-value="A2"">
-            <span id="name22"> </span>
+        <div id="key22" class="key white" data-value="A2">
+            <span id="name22">A2</span>
             <span class="word2"></span>
         </div>
         <div id="key23" class="key black" data-value="A#2">
-            <span id="name23"> </span>
+            <span id="name23">A#2</span>
             <span class="word2"></span>
         </div>
         <div id="key24" class="key white" data-value="B2">
-            <span id="name24"> </span>
+            <span id="name24">B2</span>
             <span class="word2"></span>
         </div>
         <div id="key25" class="key white" data-value="C3">
@@ -158,69 +201,69 @@
             <span id="name25">C3</span>
             <span class="word2"></span>
         </div>
-        <div id="key26" class="key black"  data-value="C#3">
+        <div id="key26" class="key black" data-value="C#3">
             <span class="keyboard-note01">s</span>
-            <span id="name26">C#</span>
+            <span id="name26">C#3</span>
             <span class="word2"></span>
         </div>
-        <div id="key27" class="key white"   data-value="D3">
+        <div id="key27" class="key white" data-value="D3">
             <span class="keyboard-note01">x</span>
-            <span id="name27">D</span>
+            <span id="name27">D3</span>
             <span class="word2"></span>
         </div>
-        <div id="key28" class="key black"  data-value="D#3">
+        <div id="key28" class="key black" data-value="D#3">
             <span class="keyboard-note01">d</span>
-            <span id="name28">D#</span>
+            <span id="name28">D#3</span>
             <span class="word2"></span>
         </div>
-        <div id="key29" class="key white"  data-value="E3">
+        <div id="key29" class="key white" data-value="E3">
             <span class="keyboard-note01">c</span>
-            <span id="name29">E</span>
+            <span id="name29">E3</span>
             <span class="word2"></span>
         </div>
-        <div id="key30" class="key white"  data-value="F3">
+        <div id="key30" class="key white" data-value="F3">
             <span class="keyboard-note01">v</span>
             <span class="keyboard-note02">q</span>
-            <span id="name30">F</span>
+            <span id="name30">F3</span>
             <span class="word2"></span>
         </div>
-        <div id="key31" class="key black"  data-value="F#3">
+        <div id="key31" class="key black" data-value="F#3">
             <span class="keyboard-note01">g</span>
             <span class="keyboard-note02">2</span>
-            <span id="name31">F#</span>
+            <span id="name31">F#3</span>
             <span class="word2"></span>
         </div>
-        <div id="key32" class="key white"  data-value="G3">
+        <div id="key32" class="key white" data-value="G3">
             <span class="keyboard-note01">b</span>
             <span class="keyboard-note02">w</span>
-            <span id="name32">G</span>
+            <span id="name32">G3</span>
             <span class="word2"></span>
         </div>
-        <div id="key33" class="key black"  data-value="G#3">
+        <div id="key33" class="key black" data-value="G#3">
             <span class="keyboard-note01">h</span>
             <span class="keyboard-note02">3</span>
-            <span id="name33">G#</span>
+            <span id="name33">G#3</span>
             <span class="word2"></span>
         </div>
-        <div id="key34" class="key white"   data-value="A3">
+        <div id="key34" class="key white" data-value="A3">
             <span class="keyboard-note01">n</span>
             <span class="keyboard-note02">e</span>
-            <span id="name34">A</span>
+            <span id="name34">A3</span>
             <span class="word2"></span>
         </div>
-        <div id="key35" class="key black"  data-value="A#3">
+        <div id="key35" class="key black" data-value="A#3">
             <span class="keyboard-note01">j</span>
             <span class="keyboard-note02">4</span>
-            <span id="name35">A#</span>
+            <span id="name35">A#3</span>
             <span class="word2"></span>
         </div>
-        <div id="key36" class="key white"  data-value="B3">
+        <div id="key36" class="key white" data-value="B3">
             <span class="keyboard-note01">m</span>
             <span class="keyboard-note02">r</span>
-            <span id="name36">B</span>
+            <span id="name36">B3</span>
             <span class="word2"></span>
         </div>
-        <div id="key37" class="key white"   data-value="C4">
+        <div id="key37" class="key white" data-value="C4">
             <span class="keyboard-note01">,</span>
             <span class="keyboard-note02">t</span>
             <span id="name37" style="color: blue; font-weight: bold;">C4</span>
@@ -229,80 +272,80 @@
         </div>
 
 
-        <div id="key38" class="key black"  data-value="C#4">
+        <div id="key38" class="key black" data-value="C#4">
             <span class="keyboard-note01">l</span>
             <span class="keyboard-note02">6</span>
-            <span id="name38">C#</span>
+            <span id="name38">C#4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
 
 
-        <div id="key39" class="key white"  data-value="D4">
+        <div id="key39" class="key white" data-value="D4">
             <span class="keyboard-note01">.</span>
             <span class="keyboard-note02">y</span>
-            <span id="name39">D</span>
+            <span id="name39">D4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key40" class="key black"  data-value="D#4">
+        <div id="key40" class="key black" data-value="D#4">
             <span class="keyboard-note01">;</span>
             <span class="keyboard-note02">7</span>
-            <span id="name40">D#</span>
+            <span id="name40">D#4</span>
             <span class="word2"></span>
             <!--<span id="word3"></span>-->
         </div>
-        <div id="key41" class="key white"  data-value="E4">
+        <div id="key41" class="key white" data-value="E4">
             <span class="keyboard-note01">/</span>
             <span class="keyboard-note02">u</span>
-            <span id="name41">E</span>
+            <span id="name41">E4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key42" class="key white"  data-value="F4">
+        <div id="key42" class="key white" data-value="F4">
             <span class="keyboard-note02">i</span>
-            <span id="name42">F</span>
+            <span id="name42">F4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key43" class="key black"   data-value="F#4">
+        <div id="key43" class="key black" data-value="F#4">
             <span class="keyboard-note02">9</span>
-            <span id="name43">F#</span>
+            <span id="name43">F#4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key44" class="key white"  data-value="G4">
+        <div id="key44" class="key white" data-value="G4">
             <span class="keyboard-note02">o</span>
-            <span id="name44">G</span>
+            <span id="name44">G4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key45" class="key black"  data-value="G#4">
+        <div id="key45" class="key black" data-value="G#4">
             <span class="keyboard-note02">0</span>
-            <span id="name45">G#</span>
+            <span id="name45">G#4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key46" class="key white"  data-value="A4">
+        <div id="key46" class="key white" data-value="A4">
             <span class="keyboard-note02">p</span>
-            <span id="name46">A</span>
+            <span id="name46">A4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key47" class="key black"  data-value="A#4">
+        <div id="key47" class="key black" data-value="A#4">
             <span class="keyboard-note02">-</span>
-            <span id="name47">A#</span>
+            <span id="name47">A#4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
-        <div id="key48" class="key white"  data-value="B4">
+        <div id="key48" class="key white" data-value="B4">
             <span class="keyboard-note02">[</span>
-            <span id="name48">B</span>
+            <span id="name48">B4</span>
             <span class="word2"></span>
             <span id="word3"></span>
         </div>
 
-        <div id="key49" class="key white"  data-value="C5">
+        <div id="key49" class="key white" data-value="C5">
             <span class="keyboard-note02">]</span>
             <span id="name49">C5</span>
             <span class="word2"></span>
@@ -310,108 +353,108 @@
 
         </div>
         <div id="key50" class="key black" data-value="C#5">
-            <span id="name50"> </span>
+            <span id="name50">C#5</span>
             <span class="word2"></span>
         </div>
 
 
         <div id="key51" class="key white" data-value="D5">
-            <span id="name51"> </span>
+            <span id="name51">D5</span>
             <span class="word2"></span>
         </div>
         <div id="key52" class="key black" data-value="D#5">
-            <span id="name52"> </span>
+            <span id="name52">D#5</span>
             <span class="word2"></span>
         </div>
         <div id="key53" class="key white" data-value="E5">
-            <span id="name53"> </span>
+            <span id="name53">E5</span>
             <span class="word2"></span>
         </div>
-        <div id="key54" class="key white"data-value="F5">
-            <span id="name54"> </span>
+        <div id="key54" class="key white" data-value="F5">
+            <span id="name54">F5</span>
             <span class="word2"></span>
         </div>
         <div id="key55" class="key black" data-value="F#5">
-            <span id="name55"> </span>
+            <span id="name55">F#5</span>
             <span class="word2"></span>
         </div>
-        <div id="key56" class="key white"  data-value="G5">
-            <span id="name56"> </span>
+        <div id="key56" class="key white" data-value="G5">
+            <span id="name56">G5</span>
             <span class="word2"></span>
         </div>
-        <div id="key57" class="key black"  data-value="G#5">
-            <span id="name57"> </span>
+        <div id="key57" class="key black" data-value="G#5">
+            <span id="name57">G#5</span>
             <span class="word2"></span>
         </div>
         <div id="key58" class="key white" data-value="A5">
-            <span id="name58"> </span>
+            <span id="name58">A5</span>
             <span class="word2"></span>
         </div>
-        <div id="key59" class="key black"  data-value="A#5">
-            <span id="name59"> </span>
+        <div id="key59" class="key black" data-value="A#5">
+            <span id="name59">A#5</span>
             <span class="word2"></span>
         </div>
         <div id="key60" class="key white" data-value="B5">
-            <span id="name60"> </span>
+            <span id="name60">B5</span>
             <span class="word2"></span>
         </div>
 
         <div id="key61" class="key white" data-value="C6">
 
-            <span id="name61"> </span>
+            <span id="name61">C6</span>
             <span class="word2"></span>
 
         </div>
         <div id="key62" class="key black" data-value="C#6">
-            <span id="name62"> </span>
+            <span id="name62">C#6</span>
             <span class="word2"></span>
         </div>
 
 
-        <div id="key63" class="key white"  data-value="D6">
-            <span id="name63"> </span>
+        <div id="key63" class="key white" data-value="D6">
+            <span id="name63">D6</span>
             <span class="word2"></span>
         </div>
         <div id="key64" class="key black" data-value="D#6">
-            <span id="name64"> </span>
+            <span id="name64">D#6</span>
             <span class="word2"></span>
         </div>
         <div id="key65" class="key white" data-value="E6">
-            <span id="name65"> </span>
+            <span id="name65">E6</span>
             <span class="word2"></span>
         </div>
         <div id="key66" class="key white" data-value="F6">
-            <span id="name66"> </span>
+            <span id="name66">F6</span>
             <span class="word2"></span>
         </div>
         <div id="key67" class="key black" data-value="F#6">
-            <span id="name67"> </span>
+            <span id="name67">F#6</span>
             <span class="word2"></span>
         </div>
         <div id="key68" class="key white" data-value="G6">
-            <span id="name68"> </span>
+            <span id="name68">G6</span>
             <span class="word2"></span>
         </div>
         <div id="key69" class="key black" data-value="G#6">
-            <span id="name69"> </span>
+            <span id="name69">G#6</span>
             <span class="word2"></span>
         </div>
         <div id="key70" class="key white" data-value="A6">
-            <span id="name70"> </span>
+            <span id="name70">A6</span>
             <span class="word2"></span>
         </div>
         <div id="key71" class="key black" data-value="A#6">
-            <span id="name71"> </span>
+            <span id="name71">A#6</span>
             <span class="word2"></span>
         </div>
         <div id="key72" class="key white" data-value="B6">
-            <span id="name72"> </span>
+            <span id="name72">B6</span>
             <span class="word2"></span>
         </div>
 
         <div id="key73" class="key white" data-value="C7">
 
-            <span id="name73"> </span>
+            <span id="name73"> C7</span>
             <span class="word2"></span>
 
         </div>
@@ -421,7 +464,7 @@
     <div class="Mode">
 
         <div class="switch">
-            
+
             <label class="UI-text" for="uls">Mode Switch</label>
             <div class="changemode" style=""></div>
 
@@ -429,6 +472,8 @@
 
                 <li class="btn" style="z-index:2; color:white;">free</li>
                 <li class="btn" style="z-index:2;">scale</li>
+                <li class="btn" style="z-index:2;">interval</li>
+               
 
 
             </ul>
@@ -438,10 +483,10 @@
 
             <div class="select-panel" id="panel" style="visibility:collapse;">
                 <ul class="dropdown">
-                    <label for="Tonic"><span class="UI-text" style=" color:white; margin-left:5%;"> Tonic </span> </label>
+                    <label for="Tonic"><span class="UI-text" style=" color: white; margin-left: 0%;"> Tonic </span> </label>
 
 
-                    <select id="Tonic" class="select-list">
+                    <select id="Tonic" class="select-list" style="letter-spacing:-2px; width:60px;">
                         <option value="C">C</option>
                         <option value="C#">C#</option>
                         <option value="D♭">D♭</option>
@@ -462,7 +507,7 @@
                     </select>
 
                     <label for="Scale_type"><span class="UI-text" style=" color: white; margin-left: 0%;"> Select Scale </span></label>
-                    <select id="Scale_type"  class="select-list" style="width:200px">
+                    <select id="Scale_type" class="select-list" style="width:200px">
                         <option value="Major">Major</option>
                         <option value="minor">minor</option>
                         <option value="Ionian">Ionian</option>
@@ -480,7 +525,7 @@
 
 
                 </ul>
-               
+
 
 
             </div>
@@ -494,7 +539,7 @@
     <div class="data">
         <span id="word" style=" font-size: 30px;
     margin-bottom: 50px;"></span>
-        <div class="stave" >
+        <div class="stave">
             <div class="staff-setting">
 
                 <div title="unsee sheet " class="clef-setting" id="visible" style=" margin-left:10px;font-size: 20px; width: 50px; background: linear-gradient(145deg, #ffffff, #e6e6e6); box-shadow: 3px 3px 6px #e3e3e3, -5px -5px 10px #ffffff;" onclick="show_staff();">
@@ -516,7 +561,8 @@
                     <select id="note-length" onchange="change_length();" class="select-list" style="width: 100%; height: 100%; box-shadow: none; border: none; font-size: 20px; color: grey; ">
 
                         <option value="1">Quarter note </option>
-
+                        <option value="0.5"> Eighth note </option>
+                        <option value="1.5">Dotted note  </option>
                         <option value="2">Half note  </option>
                         <option value="4">Whole note </option>
 
@@ -525,7 +571,7 @@
 
 
                 <div class="clef-setting" style="width:100px">
-                    <div class="switch change" id="b"  style=" font-size: 20px; padding: 10px 0px 10px 0px;"onclick=" change_b(this);">♭ </div>
+                    <div class="switch change" id="b" style=" font-size: 20px; padding: 10px 0px 10px 0px;" onclick=" change_b(this);">♭ </div>
                     <div class="switch change" id="#" style="color: #fff; background: linear-gradient(145deg, #809bb1, #6c8395); font-size: 20px; padding:10px 0px 10px 0px;" onclick=" change_b(this);">#</div>
                 </div>
 
@@ -538,14 +584,20 @@
 
             </div>
 
-          
             <div class="target-staff" id="target">
-                
+
+
+              
+
                 <p style="color:grey;font-size:20px; margin-left:30px;align-content:center;">press 'T' on keyboard to start</p>
 
 
             </div>
+
             <!--<div id="now" style="position:absolute; width:20px;height:20px; top:20px;left:90px;  background:red; z-index:3;"></div>-->
+
+            <div id="start" style=" width:100%;  height:30px;" onmouseover="abc_changed(); " onmouseclick="playbackload(true);  "> </div>
+
         </div>
 
 
@@ -557,23 +609,28 @@
                 <!--</div>
 
 
-        <div class="labels" style=" width: 215px; font-family: Arial, Helvetica, sans-serif; color: var(--panel-color); ">-->
+                <div class="labels" style=" width: 215px; font-family: Arial, Helvetica, sans-serif; color: var(--panel-color); ">-->
                 Font Size   <input type="range" class="range" min="40" max="100"
                                    id="slider" value="50" onchange="TextSizeUpdate(this.value);" />
                 <!--</div>-->
             </div>
 
-            <span class="display_word" id="chord" style="font-size: 50px; margin-left: 20px; margin-top: 1px;"></span>
-            <span class="display_word" id="second_chord" style=" font-size: 30px; margin-left: 20px; color:grey;">This board will show chords or scales</span>
+            <span class="display_word" id="chord" style="font-size: 40px; margin-left: 20px; margin-top: 1px;"></span>
+            <span class="display_word" id="second_chord" style=" font-size: 40px; margin-left: 20px; color:black;">This board will show chords or scales</span>
             <!--<span style=" font-size: 20px; margin-left: 10px; color:grey;">This board will show chords or scales</span>-->
         </div>
 
-       
-
     </div>
+    <div onclick="window.print(this)" class="clear" style=" background:white;width:150px; height:30px; margin-left:150px;  color:grey;"> print score </div>
+
+    
+
+  
 
     <script type="text/javascript" src="UI.js"></script>
     <script type="text/javascript" src="chord_detect.js"></script>
+
+    <!--<script type="text/javascript" src="audio_play_back.js"></script>-->
 
     <script></script>
 
