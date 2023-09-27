@@ -1,5 +1,3 @@
-﻿
-
 let updown01 = ['q','2','w','3','e','4','r','t', '6', 'y', '7', 'u', 'i','9', 'o', '0', 'p', '-',"[","]"]; // start from f3
 let updown02 = ['z', 's', 'x', 'd', 'c', 'v', 'g', 'b', 'h', 'n','j', 'm',  ",", 'l', ".", ";", "/"]; /// start from c3
 var gaswrite = [];
@@ -32,7 +30,7 @@ var recorder = [];
 
         },
         release: 1,
-        volume: 0.5,
+        volume: 1.0,
 
 //baseUrl: "https://unpkg.com/@audio-samples/piano-mp3-velocity14@1.0.5/audio/",
        baseUrl:" https://tonejs.github.io/audio/salamander/",
@@ -63,8 +61,7 @@ window.addEventListener('keydown', function (e) {
             NowChord.push(53 + j);
             make_sheet(note_sequence[j + 29]);
 
-           
-
+           // Chord_txt.innerHTML= interval_cal(note_sequence[j + 29]);
           
 
 
@@ -89,7 +86,7 @@ window.addEventListener('keydown', function (e) {
 
             if (staff_switch == false && edit_notes == true) {
                 
-                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('')+writer+"\n"+"w: \n ";
+                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('')+writer+"\n"+"w: \n ";
                 load();
             }
 
@@ -108,7 +105,7 @@ window.addEventListener('keydown', function (e) {
 
             piano.triggerAttackRelease(note_sequence[j + 24], tone_length);
 
-            NowChord.push(36 + j);
+            NowChord.push(48 + j);
             make_sheet(note_sequence[j + 24]);
 
 
@@ -117,8 +114,11 @@ window.addEventListener('keydown', function (e) {
             for (i = 0; i < test.length; i++) {
                 
                 test[i] = test[i].toString();
+
+                if (longer == 1) { longer = "1 "; } else { };
+
+                gaswrite[i] = Tonal.AbcNotation.scientificToAbcNotation(test[i]) + longer;// to abcjs form
                 
-                gaswrite[i] = Tonal.AbcNotation.scientificToAbcNotation(test[i])+longer;// to abcjs form
 
                
 
@@ -133,7 +133,7 @@ window.addEventListener('keydown', function (e) {
 
             if (staff_switch == false && edit_notes == true) {
                 
-                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('')+ writer;
+                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('')+ writer;
                 load();
             }
 
@@ -148,7 +148,7 @@ window.addEventListener('keydown', function (e) {
     }
 
     
-    NowChord.sort();
+    //NowChord.sort();
     Chord_detect();
     
   
@@ -185,7 +185,7 @@ document.addEventListener('keyup', function (event) {
                 writer = "";
                 //console.log(recorder, writer.length);
                // abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;//
-                abcString ="X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer + "\n" + "w: \n ";
+                abcString ="X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer + "\n" + "w: \n ";
 
                 load();
 
@@ -230,7 +230,7 @@ document.addEventListener('keyup', function (event) {
                 recorder.push(writer);
                 writer = "";
                // console.log(recorder, writer.length);
-                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;
+                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
 
 
 
@@ -269,21 +269,13 @@ document.addEventListener('keyup', function (event) {
         Nownote.splice(Nownote.indexOf(53 + j), 1);
         NowChord.splice(NowChord.indexOf(36 + j), 1);
         Nownote.splice(Nownote.indexOf(36 + j), 1);
-      
-        
-
-        
-        
-        
+            
+        _cal.length=0;
     }
   
-   
-   
+    
 
 },false);
-
-
-
 
 
 
