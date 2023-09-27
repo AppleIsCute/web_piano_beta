@@ -195,3 +195,128 @@ function abc_changed() {
 	}
 	
 }
+
+
+
+
+
+
+function playbackload(_call) {
+
+
+	var visualObj = ABCJS.renderAbc("target", abcString, {
+		add_classes: true,
+		format: {
+			gchordfont: "Verdana 20",
+			partsbox: true,
+
+			//initialClef: true,
+			paddingtop: 80,
+			paddingbottom: 80,
+
+
+		},
+
+		viewportHorizontal: true,
+		scrollHorizontal: true,
+		scale: 1.5,
+		clickListener: self.clickListener,
+
+		staffwidth: staff_add,
+		wrap: {
+
+			minSpacing: 2.5,
+			maxSpacing: 2.5,
+			minSpacingLimit: 2.5,
+			preferredMeasuresPerLine: 0,
+		},
+
+
+		selectionColor: color_fnt,
+	})[0];
+
+
+
+	//var timingCallbacks = new ABCJS.TimingCallbacks(visualObj, {
+	//	beatCallback: beatCallback,
+	//	beatSubdivisions:1,
+	//	//eventCallback: eventCallback,
+
+	//});
+
+	//console.log(staff_add);
+
+	if (ABCJS.synth.supportsAudio()) {
+		var synthControl = new ABCJS.synth.SynthController();
+		synthControl.load("#start",
+			cursorControl,
+			{
+				displayLoop: true,
+				displayRestart: true,
+				displayPlay: true,
+				displayProgress: true,
+				displayWarp: true
+			}
+		);
+
+
+		var createSynth = new ABCJS.synth.CreateSynth();
+		createSynth.init({
+			audioContext: myContext,
+			visualObj: visualObj,
+			millisecondsPerMeasure: 500,
+			options: {
+				soundFontUrl: "https://paulrosen.github.io/midi-js-soundfonts/abcjs/",
+				pan: [-0.3, 0.3],
+				soundFontVolumeMultiplier:0.2,
+			}
+		}).then(function () {
+			synthControl.setTune(visualObj, false, audioParams).then(function () {
+				//console.log("Audio successfully loaded.")
+			}).catch(function (error) {
+				console.warn("Audio problem:", error);
+			});
+		}).catch(function (error) {
+			console.warn("Audio problem:", error);
+		});
+	} else {
+		document.querySelector("#start").innerHTML =
+			"Audio is not supported in this browser.";
+	}
+
+
+	last_abc = abcString;
+
+	
+ 
+
+
+}
+
+
+
+
+
+
+function beatCallback(currentBeat, totalBeats, lastMoment, position, debugInfo) {
+	//console.log(position);
+	//document.getElementById("cursor").style.transform = "translateX("+(position.left*1.5)+"px)";
+}
+
+
+
+
+
+
+function mapArrayToNotes(user_input, array1, array2) {
+	if (array1.length !== array2.length) {
+		throw new Error('Both arrays must have the same length.');
+	}
+
+	const index = array1.indexOf(user_input);
+	if (index === -1) {
+		throw new Error('Number not found in array1.');
+	}
+
+	return array2[index];
+}
