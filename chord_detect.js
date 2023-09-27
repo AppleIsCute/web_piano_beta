@@ -1,10 +1,12 @@
-﻿
 var note_sequence = ['C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1', 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5', 'C6', 'C#6', 'D6', 'D#6', 'E6', 'F6', 'F#6', 'G6', 'G#6', 'A6', 'A#6', 'B6', 'C7'];
 var show;
+
+var pitch_name02 = ['', '', '', '', '', '', '', '', '', '', '', '','C', '', 'D', '', 'E', 'F', '', 'G', '', 'A', '', 'B', 'c', '', 'd', '', 'e', 'f', '', 'g', '', 'a', '', 'b', 'c1', '', 'd1', '', 'e1', 'f1', '', 'g1', '', 'a1', '', 'b1', 'c2', '', 'd2', '', 'e2', 'f2', '', 'g2', '', 'a2', '', 'b2', 'c3', '', 'd3', '', 'e3', 'f3', '', 'g3', '', 'a3', '', 'b3', 'c4'];
 var Chord_txt = document.getElementById("chord");
 var sub_Chord_txt = document.getElementById("second_chord");
 var NowChord = [];
 var Nownote = [];
+let _cal = [];
 
 navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
 
@@ -19,6 +21,8 @@ function onMIDISuccess(midiAccess) {
 function onMIDIFailure(msg) {
     console.error(`Failed to get MIDI access - ${msg}`);
 }
+
+
 
 
 function getMIDIMessage(midiAccess) {
@@ -70,7 +74,7 @@ function getMIDIMessage(midiAccess) {
 
             if (staff_switch == false && edit_notes==true) {
 
-                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;
+                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
                 load();
             }
 
@@ -106,7 +110,7 @@ function getMIDIMessage(midiAccess) {
                 recorder.push(writer);
                 writer = "";
                 //console.log(recorder, writer.length);
-                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n |" + recorder.join('') + writer;//
+                abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;//
                 load();
 
                 const scroll = document.getElementsByClassName("target-staff");
@@ -129,35 +133,115 @@ function getMIDIMessage(midiAccess) {
 
 }
 
-function Chord_detect(){
+function Chord_detect() {
+    
     for (let i = 0; i < NowChord.length; i++) {
-        if (NowChord[i] % 12 == 0) { Nownote[i] = "C"; }
-        if (NowChord[i] % 12 == 1) { Nownote[i] = "C#"; }
-        if (NowChord[i] % 12 == 2) { Nownote[i] = "D"; }
-        if (NowChord[i] % 12 == 3) { Nownote[i] = "D#"; }
-        if (NowChord[i] % 12 == 4) { Nownote[i] = "E"; }
-        if (NowChord[i] % 12 == 5) { Nownote[i] = "F"; }
-        if (NowChord[i] % 12 == 6) { Nownote[i] = "F#"; }
-        if (NowChord[i] % 12 == 7) { Nownote[i] = "G"; }
-        if (NowChord[i] % 12 == 8) { Nownote[i] = "G#"; }
-        if (NowChord[i] % 12 == 9) { Nownote[i] = "A"; }
-        if (NowChord[i] % 12 == 10) { Nownote[i] = "B♭"; }
-        if (NowChord[i] % 12 == 11) { Nownote[i] = "B"; }
+
+        if (b_switch == false) { Nownote[i] = Tonal.Midi.midiToNoteName(NowChord[i], { sharps: true }); } // => "C#4" NowChord
+
+        else { Nownote[i] = Tonal.Midi.midiToNoteName(NowChord[i], { sharps: false }); }
+
+
+        //if (NowChord[i] % 12 == 0) { Nownote[i] = "C"; }
+        //if (NowChord[i] % 12 == 1)
+        //{
+        //    if (b_switch == false) {
+        //        Nownote[i] = "C#";
+        //    }else { Nownote[i] = "Db"; }
+        //}
+        //if (NowChord[i] % 12 == 2) { Nownote[i] = "D"; }
+        //if (NowChord[i] % 12 == 3) {
+        //    if (b_switch == false) {
+        //        Nownote[i] = "D#";
+        //    } else { Nownote[i] = "Eb"; } }
+        //if (NowChord[i] % 12 == 4) { Nownote[i] = "E"; }
+        //if (NowChord[i] % 12 == 5) { Nownote[i] = "F"; }
+        //if (NowChord[i] % 12 == 6) {
+            
+        //    if (b_switch == false) {
+        //        Nownote[i] = "F#";
+        //    } else { Nownote[i] = "Gb"; }}
+        //if (NowChord[i] % 12 == 7) { Nownote[i] = "G"; }
+        //if (NowChord[i] % 12 == 8) {
+        //    if (b_switch == false) {
+        //        Nownote[i] = "G#";
+        //    } else { Nownote[i] = "Ab"; } }
+        //if (NowChord[i] % 12 == 9) { Nownote[i] = "A"; }
+        //if (NowChord[i] % 12 == 10) {
+           
+        //    if (b_switch == false) {
+        //        Nownote[i] = "A#";
+        //    } else { Nownote[i] = "Bb"; }
+        //}
+        //if (NowChord[i] % 12 == 11) { Nownote[i] = "B"; }
     }
+   // console.log(Nownote);
 
-
-    show = Tonal.Chord.detect(Nownote, { assumePerfectFifth: false });
+    show = Tonal.Chord.detect(Nownote, { assumePerfectFifth: true });
    
    
 
     Chord_txt.innerHTML = '';
     sub_Chord_txt.innerHTML = '';
-    if (show.length >= 1) {
-        Chord_txt.innerHTML = show[0];
+
+
+    if (_interval == false) {
+        if (show.length >= 1) {
+            Chord_txt.innerHTML = show[0];
+        }
+
+        sub_Chord_txt.innerHTML = show.slice(1).join('<br>');
     }
 
-    sub_Chord_txt.innerHTML = show.slice(1).join('<br>');
-    //console.log(show);
+
+    if (_interval == true) {
+
+        let interval_name = Tonal.Interval.distance(Nownote[0], Nownote[1]);
+        let dig0, dig1 = "_";
+        let interval_line ;
+
+        
+        dig0 = Nownote[0];
+        dig1 = Nownote[1];
+        interval_line = Tonal.Interval.quality(interval_name) + Tonal.Interval.num(interval_name);
+        if (Tonal.Interval.num(interval_name) < 0) { interval_line = Tonal.Interval.quality(interval_name) + Math.abs(Tonal.Interval.num(interval_name)); }
+         
+        if (typeof dig1 === 'undefined') { dig1 = "__"; interval_line = "?"; }
+        if (typeof dig0 === 'undefined') { dig0 = "__"; interval_line = "?";}
+        //if (isNaN(interval_line)) { interval_line = "?"; }
+        
+        Chord_txt.innerHTML = "The " + dig0 + " to " + dig1+" interval is " +interval_line;
+        sub_Chord_txt.innerHTML = '';
+        
+        
+
+    } else { }
+
+    //console.log(Nownote);
+}
+
+
+function interval_cal(cal) {
+
+
+    if (_interval == true) {
+        _cal.push(cal);
+        console.log(cal, _cal);
+        let interval_name = Tonal.Interval.distance(_cal[0], _cal[1]);
+        let interval_line = Tonal.Interval.quality(interval_name) + Tonal.Interval.num(interval_name)
+        console.log(Tonal.Interval.quality(interval_name) + Tonal.Interval.num(interval_name));
+
+        //let dig0, dig1 = "_";
+        //dig0 = _cal[0];
+        //dig1 = _cal[1];
+
+        //if (typeof dig1 === 'undefined') { dig1 = "__"; }
+        //if (typeof dig0 === 'undefined') { dig0 = "__"; }
+        //Chord_txt.innerHTML = "The " + dig0 + " to " + dig1 + " interval is " + interval_name;
+        //sub_Chord_txt.innerHTML = '';
+        return interval_line;
+    } else { }
+
 }
 
 
@@ -280,18 +364,24 @@ function call_Scale(start_note, type) {
         nameText[i] = document.getElementById("name" + (37 + count + how_many[i]));
         targetKey.style.background = 'linear-gradient(#9ab5df 96%, #8395b1 4%)';
         targetKey.style.color = 'black';
+        //targetKey.style.borderLeft = "1px solid white";
+        //targetKey.style.borderRight = "1px solid white";
+
+        targetKey.style.boxShadow ="inset -2px -2px 3px #fff , -2px 2px 3px #fff";
             
         nameText[i].innerHTML = getNotesbyname[i];
         number[24 + count + how_many[i]].innerHTML = i+1;
-       
-       sheet[i] = Tonal.AbcNotation.scientificToAbcNotation(getNotesbyname[i] )+longer;
+
+        if (longer == 1) { longer = "1" + " ";}
+        sheet[i] = Tonal.AbcNotation.scientificToAbcNotation(getNotesbyname[i]) + longer;
+        
 
         }
     
 
    
  
-    abcString = "X:1 T: \nV: 1 " + "clef =" + "treble " + " \n K: \n |" + sheet.join('');
+    abcString = "X:1 T: \nV: 1 " + "clef =" + "treble " + " \n K: \n" + sheet.join('');
    // console.log(abcString);
     load();
 
@@ -309,12 +399,12 @@ function ScaleDisable() {
         nameText[i] = document.getElementById("name" + (25 + (i - 24)));
         
 
-        if (i % 12 === 0 || i % 12 === 2 || i % 12 === 4 || i % 12 === 5 || i % 12 === 7 || i % 12 === 9 || i % 12 === 11) { targetKey.style.background = 'linear-gradient(#fff 96%, #eee 4%)'; }
-        else { targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; targetKey.style.color = 'white';}
-        
+        if (i % 12 === 0 || i % 12 === 2 || i % 12 === 4 || i % 12 === 5 || i % 12 === 7 || i % 12 === 9 || i % 12 === 11) { targetKey.style.background = 'linear-gradient(#fff 96%, #eee 4%)';  }
+        else { targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; targetKey.style.color = 'white'; }
+        targetKey.style.boxShadow = " 2px 2px 5px #a5a5a5, -2px 2px 2px #ffffff";
         nameText[i].innerHTML = "";
        
-        abcString = "X:1 T: \nV: 1 " + "clef =" + "treble " + " \n K: \n |";
+        abcString = "X:1 T: \nV: 1 " + "clef =" + "treble " + " \n K: \n";
         load();
         var number = document.querySelectorAll('.word2');
         for (let i = 0; i < number.length; i++) {
@@ -359,33 +449,46 @@ function change_b(element) {
     }
 
 
-    for (let i = 24; i < 49; i++) {
+    for (let i = 12; i < 73; i++) {
         nameText[i] = document.getElementById("name" + (25 + (i - 24)));
+
+        var note_names = [];
+      
+        if (_pitch == 1) { note_names = note_sequence; } else { note_names = pitch_name02; }
+
+
         if (i % 12 === 0 || i % 12 === 2 || i % 12 === 4 || i % 12 === 5 || i % 12 === 7 || i % 12 === 9 || i % 12 === 11) {
-            nameText[i].innerHTML = note_sequence[i].substr(-3, 1);
+            nameText[i].innerHTML = note_names[i];
         }
         else {
-             nameText[i].innerHTML = note_sequence[i].substr(-3, 2);
+             nameText[i].innerHTML = note_names[i];
             if (b_switch == true) {
                 if (nameText[i].innerHTML.length > 1) {
 
-                    if (nameText[i].innerHTML.substr(-3, 1) == 'C') { nameText[i].innerHTML = "D♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'D') { nameText[i].innerHTML = "E♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'F') { nameText[i].innerHTML = "G♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'A') { nameText[i].innerHTML = "B♭"; }
-                    else if (nameText[i].innerHTML.substr(-3, 1) == 'G') { nameText[i].innerHTML = "A♭"; }
-
+                    if (nameText[i].innerHTML.substr(-3, 1) == 'C') { nameText[i].innerHTML = "D♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'D') { nameText[i].innerHTML = "E♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'F') { nameText[i].innerHTML = "G♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'A') { nameText[i].innerHTML = "B♭" + nameText[i].innerHTML.substr(-1, 1); }
+                    else if (nameText[i].innerHTML.substr(-3, 1) == 'G') { nameText[i].innerHTML = "A♭" + nameText[i].innerHTML.substr(-1, 1); }
                 }
             }
         }
-        nameText[24].innerHTML = note_sequence[24].substr(-3, 2);
-       // nameText[36].innerHTML = note_sequence[36].substr(-3, 2);
-        //nameText[48].innerHTML = note_sequence[48].substr(-3, 2);
+       
 
     }
+   
 
 }
 
+
+function change_pitch_name(){
+
+    const pitch_name = document.getElementById("pitch-name");
+    _pitch = pitch_name.value;
+    console.log(typeof _pitch)
+    pianoResume();
+
+}
 
    
     
