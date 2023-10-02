@@ -145,7 +145,7 @@ function load(){
 		scrollHorizontal: true,
 		viewportVertical: true,
 		scrollVertical: true,
-		scale: 1,
+		scale: 1.5,
 		clickListener: self.clickListener,
 
 		staffwidth: staff_add,
@@ -203,7 +203,7 @@ function playbackload(_call) {
 		scrollHorizontal: true,
 		scrollVertical: true,
 		viewportVertical: true,
-		scale: 1,
+		scale: 1.5,
 		clickListener: self.clickListener,
 
 		staffwidth: staff_add,
