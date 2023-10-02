@@ -24,61 +24,39 @@ var clickarray01 = [];
 
 function clickListener(abcElem, tuneNumber, classes, analysis, drag, mouseEvent) {
 
-	console.log(abcElem);
-	//console.log(abcElem.duration);
+	//console.log(analysis.clickedName);
+	console.log(analysis);
 
+	for (let i = 12; i < 73; i++) {
+		var targetKey = document.getElementById("key" + (25 + (i - 24)));
+		
+		if (i % 12 === 0 || i % 12 === 2 || i % 12 === 4 || i % 12 === 5 || i % 12 === 7 || i % 12 === 9 || i % 12 === 11) {
+			targetKey.style.background = 'linear-gradient(#fff 96%, #eee 4%)';
+
+		}
+		else {
+			targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; 
+
+		}
+
+	}
 
 	for (let i = 0; i < abcElem.pitches.length; i++) {
 
 
-
 		var [call_key, keynumber] = NoteName_return(abcElem.pitches[i].pitch, abcElem.pitches[i].accidental);
-		console.log(NoteName_return(abcElem.pitches[i].pitch, abcElem.pitches[i].accidental));
+		//console.log(NoteName_return(abcElem.pitches[i].pitch, abcElem.pitches[i].accidental));
+
 		var targetKey = document.getElementById("key" + (keynumber + 1));
+
 		targetKey.style.background = 'linear-gradient(#E74949 96%, #CA1717 4%)';
 		piano.triggerAttackRelease(call_key, (2 / abcElem.duration) + "n");
 		clickarray01[i] = keynumber + 1;
+		
 	}
 
-
-	for (let i = 0; i < last_click.length; i++) {
-		last_click.sort();
-
-		if (last_click[i].length !== clickarray01[i].length) {
-
-			var targetKey = document.getElementById("key" + (last_click[i]));
-			if ((last_click[i] - 1) % 12 === 0 || (last_click[i] - 1) % 12 === 2 || (last_click[i] - 1) % 12 === 4 || (last_click[i] - 1) % 12 === 5 || (last_click[i] - 1) % 12 === 7 || (last_click[i] - 1) % 12 === 9 || (last_click[i] - 1) % 12 === 11) { targetKey.style.background = 'linear-gradient(#fff 96%, #eee 4%)'; }
-			else { targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; targetKey.style.color = 'white'; }
-
-		}
-
-
-		if (last_click[i] !== clickarray01[i]) {
-
-			var targetKey = document.getElementById("key" + (last_click[i]));
-			if ((last_click[i] - 1) % 12 === 0 || (last_click[i] - 1) % 12 === 2 || (last_click[i] - 1) % 12 === 4 || (last_click[i] - 1) % 12 === 5 || (last_click[i] - 1) % 12 === 7 || (last_click[i] - 1) % 12 === 9 || (last_click[i] - 1) % 12 === 11) { targetKey.style.background = 'linear-gradient(#fff 96%, #eee 4%)'; }
-			else { targetKey.style.background = 'linear-gradient(#333 96%, #525050 4%)'; targetKey.style.color = 'white'; }
-
-
-
-		}
-
-		else {
-
-			var targetKey = document.getElementById("key" + (last_click[i]));
-			targetKey.style.background = 'linear-gradient(#E74949 96%, #CA1717 4%)';
-		}
-
-
-
-
-	}
-
-
-
-
-	last_click = [...clickarray01];
-	//console.log("keynum"+last_click,clickarray01);
+	
+	console.log(last_click,last_click.length,clickarray01);
 
 }
 
@@ -150,6 +128,7 @@ var new_abc;
 function load(){
 
 	ABCJS.renderAbc("target", abcString, {
+	
 		add_classes: true,
 		format: {
 			gchordfont: "Verdana 20",
@@ -164,17 +143,19 @@ function load(){
 
 		viewportHorizontal: true,
 		scrollHorizontal: true,
-		scale: 1.5,
+		viewportVertical: true,
+		scrollVertical: true,
+		scale: 1,
 		clickListener: self.clickListener,
 
-		staffwidth: staff_add,
-		wrap: {
+		staffwidth: 50000+staff_add,
+		//wrap: {
 
-			minSpacing: 2.5,
-			maxSpacing: 2.5,
-			minSpacingLimit: 2.5,
-			preferredMeasuresPerLine: 0,
-		},
+		//	minSpacing: 2.5,
+		//	maxSpacing: 2.5,
+		//	minSpacingLimit: 2.5,
+			
+		//},
 
 
 		selectionColor: color_fnt,
@@ -206,6 +187,7 @@ function playbackload(_call) {
 
 	var visualObj = ABCJS.renderAbc("target", abcString, {
 		add_classes: true,
+		
 		format: {
 			gchordfont: "Verdana 20",
 			partsbox: true,
@@ -219,23 +201,25 @@ function playbackload(_call) {
 
 		viewportHorizontal: true,
 		scrollHorizontal: true,
-		scale: 1.5,
+		scrollVertical: true,
+		viewportVertical: true,
+		scale: 1,
 		clickListener: self.clickListener,
 
-		staffwidth: staff_add,
-		wrap: {
+		staffwidth: 50000 + staff_add,
+		//wrap: {
 
-			minSpacing: 2.5,
-			maxSpacing: 2.5,
-			minSpacingLimit: 2.5,
-			preferredMeasuresPerLine: 0,
-		},
+		//	minSpacing: 2.5,
+		//	maxSpacing: 2.5,
+		//	minSpacingLimit: 2.5,
+			
+		//},
 
 
 		selectionColor: color_fnt,
 	})[0];
 
-
+	
 
 	//var timingCallbacks = new ABCJS.TimingCallbacks(visualObj, {
 	//	beatCallback: beatCallback,
@@ -287,9 +271,6 @@ function playbackload(_call) {
 
 	last_abc = abcString;
 
-	
- 
-
 
 }
 
@@ -302,7 +283,6 @@ function beatCallback(currentBeat, totalBeats, lastMoment, position, debugInfo) 
 	//console.log(position);
 	//document.getElementById("cursor").style.transform = "translateX("+(position.left*1.5)+"px)";
 }
-
 
 
 
