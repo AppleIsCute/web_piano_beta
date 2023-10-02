@@ -148,7 +148,7 @@ function load(){
 		scale: 1,
 		clickListener: self.clickListener,
 
-		staffwidth: 50000+staff_add,
+		staffwidth: staff_add,
 		//wrap: {
 
 		//	minSpacing: 2.5,
@@ -206,7 +206,7 @@ function playbackload(_call) {
 		scale: 1,
 		clickListener: self.clickListener,
 
-		staffwidth: 50000 + staff_add,
+		staffwidth: staff_add,
 		//wrap: {
 
 		//	minSpacing: 2.5,
