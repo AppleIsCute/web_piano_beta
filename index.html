@@ -37,7 +37,7 @@
                 display: none;
             }
 
-            #target svg {
+            #target {
                 visibility: visible;
                 position: absolute;
                 top:0px;
@@ -66,13 +66,13 @@
     <div class="web-head">
         <h1>WEB PIANO</h1>
     </div>
+    <div id="hintdiv"></div>
 
 
-
-    <div class="piano-panel" >
-        <div style="width:80%; height:100% ; left:100px; right:100px;background:red;position:absolute;bottom:0px; opacity:0;" onmouseover="document.getElementById('key-hint').style.visibility = 'visible'; " onmouseout="document.getElementById('key-hint').style.visibility = 'hidden';"></div>
-        <div class="hints" id="key-hint" style="visibility:hidden; position :absolute;bottom:72px;left:930px; width:300px;height:50px; text-align:left;background:grey;color:white; padding:5px; opacity:0.6;">Press the symbols and alphabets on keyboard to play.</div>
-        <div class="image" id="fds" onclick="marker_change_color();" onmouseover="show_hint();" onmouseout="hide_hint();">
+    <div class="piano-panel">
+        <div style="z-index:3; width:80%; height:100% ; left:100px; right:20px;background:red;position:absolute;bottom:0px; opacity:0;" onmouseover="hint_event('Press the symbols and alphabets on computer keyboard to play.','visible');" onmouseout="hint_event('','collapse')"></div>
+        <!--<div class="hints" id="key-hint" style="visibility:hidden; position :absolute;bottom:72px;left:930px; width:300px;height:50px; text-align:left;background:grey;color:white; padding:5px; opacity:0.6;">Press the symbols and alphabets on keyboard to play.</div>-->
+        <div class="image" id="fds" onclick="marker_change_color();" onmouseover="hint_event('Click on keys to make marks, click me to select or disable marker color.','visible');" onmouseout="hint_event('','collapse')">
             <img src="write_dots.svg" />
         </div>
         <div class="pallette" id="marker">
@@ -81,12 +81,12 @@
             <div class="color-picker" style="background-image: url(hide.svg); background-size: 20px;  background-repeat: no-repeat; background-position: center center; " onclick="no_dots = true;"></div>
 
         </div>
-        <div class="hints" id="hint" style="visibility:hidden; position :absolute;bottom:72px;left:10px; width:300px;height:50px; text-align:left;background:grey;color:white; padding:5px; opacity:0.6;">Click on keys to make marks, click me to select or disable marker color.</div>
-        <div class="image" id="clear-dot" style=" margin-left:50px; " title="clear dots">
+        <!--<div class="hints" id="hint" style="visibility:hidden; position :absolute;bottom:72px;left:10px; width:300px;height:50px; text-align:left;background:grey;color:white; padding:5px; opacity:0.6;">Click on keys to make marks, click me to select or disable marker color.</div>-->
+        <div class="image" id="clear-dot" style=" margin-left:50px; " title="clear dots" onmouseover="hint_event('Clear dots on piano keys.','visible');" onmouseout="hint_event('', 'collapse');">
             <img src="redo.svg" />
         </div>
 
-        <div id="" style="margin-left:80%; margin-top:5px;background: inherit; width: 250px; height:30px;  align-items: center; align-content:center; " title="change pitch notation">
+        <div id="" style="margin-left:80%; margin-top:5px;background: inherit; width: 250px; height:30px;  align-items: center; align-content:center; " title="change pitch notation" onmouseover="hint_event('Switch to select different formats for pitch names displaying on piano keys','visible');" onmouseout="hint_event('','collapse')">
             <select onchange=" change_pitch_name();" id="pitch-name" style=" color: white; border-radius: 15px; padding: 5px; font-size: 12px; height: 30px; width: 100%; border: none; background: inherit; box-shadow: 5px 5px 13px #5e7181, -3px -3px 13px #a0c1db; cursor: pointer;">
                 <option value="1"> International pitch notation (IPN) </option>
                 <option value="2"> Helmholtz pitch notation </option>
@@ -94,9 +94,9 @@
             </select>
         </div>
     </div>
-        <div class="container">
+    <div class="container">
 
-            <!--<div id="key1" class="key white">
+        <!--<div id="key1" class="key white">
             <span id="name1"> </span>
             <span id="word2"></span>
         </div>
@@ -147,494 +147,514 @@
             <span id="word2"></span>
         </div>-->
 
-            <div id="key13" class="key white" data-value="C2">
+        <div id="key13" class="key white" data-value="C2">
 
-                <span id="name13">C2</span>
-                <span class="word2"></span>
-
-
-            </div>
-            <div id="key14" class="key black" data-value="C#2">
-                <span id="name14">C#2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key15" class="key white" data-value="D2">
-                <span id="name15">D2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key16" class="key black" data-value="D#2">
-                <span id="name16">D#2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key17" class="key white" data-value="E2">
-                <span id="name17">E2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key18" class="key white" data-value="F2">
-                <span id="name18">F2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key19" class="key black" data-value="F#2">
-                <span id="name19">F#2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key20" class="key white" data-value="G2">
-                <span id="name20">G2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key21" class="key black" data-value="G#2">
-                <span id="name21">G#2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key22" class="key white" data-value="A2">
-                <span id="name22">A2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key23" class="key black" data-value="A#2">
-                <span id="name23">A#2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key24" class="key white" data-value="B2">
-                <span id="name24">B2</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key25" class="key white" data-value="C3">
-                <span class="keyboard-note01">z</span>
-                <span id="name25">C3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key26" class="key black" data-value="C#3">
-                <span class="keyboard-note01">s</span>
-                <span id="name26">C#3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key27" class="key white" data-value="D3">
-                <span class="keyboard-note01">x</span>
-                <span id="name27">D3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key28" class="key black" data-value="D#3">
-                <span class="keyboard-note01">d</span>
-                <span id="name28">D#3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key29" class="key white" data-value="E3">
-                <span class="keyboard-note01">c</span>
-                <span id="name29">E3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key30" class="key white" data-value="F3">
-                <span class="keyboard-note01">v</span>
-                <span class="keyboard-note02">q</span>
-                <span id="name30">F3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key31" class="key black" data-value="F#3">
-                <span class="keyboard-note01">g</span>
-                <span class="keyboard-note02">2</span>
-                <span id="name31">F#3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key32" class="key white" data-value="G3">
-                <span class="keyboard-note01">b</span>
-                <span class="keyboard-note02">w</span>
-                <span id="name32">G3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key33" class="key black" data-value="G#3">
-                <span class="keyboard-note01">h</span>
-                <span class="keyboard-note02">3</span>
-                <span id="name33">G#3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key34" class="key white" data-value="A3">
-                <span class="keyboard-note01">n</span>
-                <span class="keyboard-note02">e</span>
-                <span id="name34">A3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key35" class="key black" data-value="A#3">
-                <span class="keyboard-note01">j</span>
-                <span class="keyboard-note02">4</span>
-                <span id="name35">A#3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key36" class="key white" data-value="B3">
-                <span class="keyboard-note01">m</span>
-                <span class="keyboard-note02">r</span>
-                <span id="name36">B3</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key37" class="key white" data-value="C4">
-                <span class="keyboard-note01">,</span>
-                <span class="keyboard-note02">t</span>
-                <span id="name37" style="color: blue; font-weight: bold;">C4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
+            <span id="name13">C2</span>
+            <span class="word2"></span>
 
 
-            <div id="key38" class="key black" data-value="C#4">
-                <span class="keyboard-note01">l</span>
-                <span class="keyboard-note02">6</span>
-                <span id="name38">C#4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
+        </div>
+        <div id="key14" class="key black" data-value="C#2">
+            <span id="name14">C#2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key15" class="key white" data-value="D2">
+            <span id="name15">D2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key16" class="key black" data-value="D#2">
+            <span id="name16">D#2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key17" class="key white" data-value="E2">
+            <span id="name17">E2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key18" class="key white" data-value="F2">
+            <span id="name18">F2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key19" class="key black" data-value="F#2">
+            <span id="name19">F#2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key20" class="key white" data-value="G2">
+            <span id="name20">G2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key21" class="key black" data-value="G#2">
+            <span id="name21">G#2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key22" class="key white" data-value="A2">
+            <span id="name22">A2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key23" class="key black" data-value="A#2">
+            <span id="name23">A#2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key24" class="key white" data-value="B2">
+            <span id="name24">B2</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key25" class="key white" data-value="C3">
+            <span class="keyboard-note01">z</span>
+            <span id="name25">C3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key26" class="key black" data-value="C#3">
+            <span class="keyboard-note01">s</span>
+            <span id="name26">C#3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key27" class="key white" data-value="D3">
+            <span class="keyboard-note01">x</span>
+            <span id="name27">D3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key28" class="key black" data-value="D#3">
+            <span class="keyboard-note01">d</span>
+            <span id="name28">D#3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key29" class="key white" data-value="E3">
+            <span class="keyboard-note01">c</span>
+            <span id="name29">E3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key30" class="key white" data-value="F3">
+            <span class="keyboard-note01">v</span>
+            <span class="keyboard-note02">q</span>
+            <span id="name30">F3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key31" class="key black" data-value="F#3">
+            <span class="keyboard-note01">g</span>
+            <span class="keyboard-note02">2</span>
+            <span id="name31">F#3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key32" class="key white" data-value="G3">
+            <span class="keyboard-note01">b</span>
+            <span class="keyboard-note02">w</span>
+            <span id="name32">G3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key33" class="key black" data-value="G#3">
+            <span class="keyboard-note01">h</span>
+            <span class="keyboard-note02">3</span>
+            <span id="name33">G#3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key34" class="key white" data-value="A3">
+            <span class="keyboard-note01">n</span>
+            <span class="keyboard-note02">e</span>
+            <span id="name34">A3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key35" class="key black" data-value="A#3">
+            <span class="keyboard-note01">j</span>
+            <span class="keyboard-note02">4</span>
+            <span id="name35">A#3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key36" class="key white" data-value="B3">
+            <span class="keyboard-note01">m</span>
+            <span class="keyboard-note02">r</span>
+            <span id="name36">B3</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key37" class="key white" data-value="C4">
+            <span class="keyboard-note01">,</span>
+            <span class="keyboard-note02">t</span>
+            <span id="name37" style="color: blue; font-weight: bold;">C4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
 
 
-            <div id="key39" class="key white" data-value="D4">
-                <span class="keyboard-note01">.</span>
-                <span class="keyboard-note02">y</span>
-                <span id="name39">D4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key40" class="key black" data-value="D#4">
-                <span class="keyboard-note01">;</span>
-                <span class="keyboard-note02">7</span>
-                <span id="name40">D#4</span>
-                <span class="word2"></span>
-                <!--<span id="word3"></span>-->
-            </div>
-            <div id="key41" class="key white" data-value="E4">
-                <span class="keyboard-note01">/</span>
-                <span class="keyboard-note02">u</span>
-                <span id="name41">E4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key42" class="key white" data-value="F4">
-                <span class="keyboard-note02">i</span>
-                <span id="name42">F4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key43" class="key black" data-value="F#4">
-                <span class="keyboard-note02">9</span>
-                <span id="name43">F#4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key44" class="key white" data-value="G4">
-                <span class="keyboard-note02">o</span>
-                <span id="name44">G4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key45" class="key black" data-value="G#4">
-                <span class="keyboard-note02">0</span>
-                <span id="name45">G#4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key46" class="key white" data-value="A4">
-                <span class="keyboard-note02">p</span>
-                <span id="name46">A4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key47" class="key black" data-value="A#4">
-                <span class="keyboard-note02">-</span>
-                <span id="name47">A#4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-            <div id="key48" class="key white" data-value="B4">
-                <span class="keyboard-note02">[</span>
-                <span id="name48">B4</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-            </div>
-
-            <div id="key49" class="key white" data-value="C5">
-                <span class="keyboard-note02">]</span>
-                <span id="name49">C5</span>
-                <span class="word2"></span>
-                <span id="word3"></span>
-
-            </div>
-            <div id="key50" class="key black" data-value="C#5">
-                <span id="name50">C#5</span>
-                <span class="word2"></span>
-            </div>
+        <div id="key38" class="key black" data-value="C#4">
+            <span class="keyboard-note01">l</span>
+            <span class="keyboard-note02">6</span>
+            <span id="name38">C#4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
 
 
-            <div id="key51" class="key white" data-value="D5">
-                <span id="name51">D5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key52" class="key black" data-value="D#5">
-                <span id="name52">D#5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key53" class="key white" data-value="E5">
-                <span id="name53">E5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key54" class="key white" data-value="F5">
-                <span id="name54">F5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key55" class="key black" data-value="F#5">
-                <span id="name55">F#5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key56" class="key white" data-value="G5">
-                <span id="name56">G5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key57" class="key black" data-value="G#5">
-                <span id="name57">G#5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key58" class="key white" data-value="A5">
-                <span id="name58">A5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key59" class="key black" data-value="A#5">
-                <span id="name59">A#5</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key60" class="key white" data-value="B5">
-                <span id="name60">B5</span>
-                <span class="word2"></span>
-            </div>
+        <div id="key39" class="key white" data-value="D4">
+            <span class="keyboard-note01">.</span>
+            <span class="keyboard-note02">y</span>
+            <span id="name39">D4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key40" class="key black" data-value="D#4">
+            <span class="keyboard-note01">;</span>
+            <span class="keyboard-note02">7</span>
+            <span id="name40">D#4</span>
+            <span class="word2"></span>
+            <!--<span id="word3"></span>-->
+        </div>
+        <div id="key41" class="key white" data-value="E4">
+            <span class="keyboard-note01">/</span>
+            <span class="keyboard-note02">u</span>
+            <span id="name41">E4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key42" class="key white" data-value="F4">
+            <span class="keyboard-note02">i</span>
+            <span id="name42">F4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key43" class="key black" data-value="F#4">
+            <span class="keyboard-note02">9</span>
+            <span id="name43">F#4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key44" class="key white" data-value="G4">
+            <span class="keyboard-note02">o</span>
+            <span id="name44">G4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key45" class="key black" data-value="G#4">
+            <span class="keyboard-note02">0</span>
+            <span id="name45">G#4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key46" class="key white" data-value="A4">
+            <span class="keyboard-note02">p</span>
+            <span id="name46">A4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key47" class="key black" data-value="A#4">
+            <span class="keyboard-note02">-</span>
+            <span id="name47">A#4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
+        <div id="key48" class="key white" data-value="B4">
+            <span class="keyboard-note02">[</span>
+            <span id="name48">B4</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
+        </div>
 
-            <div id="key61" class="key white" data-value="C6">
+        <div id="key49" class="key white" data-value="C5">
+            <span class="keyboard-note02">]</span>
+            <span id="name49">C5</span>
+            <span class="word2"></span>
+            <span id="word3"></span>
 
-                <span id="name61">C6</span>
-                <span class="word2"></span>
-
-            </div>
-            <div id="key62" class="key black" data-value="C#6">
-                <span id="name62">C#6</span>
-                <span class="word2"></span>
-            </div>
+        </div>
+        <div id="key50" class="key black" data-value="C#5">
+            <span id="name50">C#5</span>
+            <span class="word2"></span>
+        </div>
 
 
-            <div id="key63" class="key white" data-value="D6">
-                <span id="name63">D6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key64" class="key black" data-value="D#6">
-                <span id="name64">D#6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key65" class="key white" data-value="E6">
-                <span id="name65">E6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key66" class="key white" data-value="F6">
-                <span id="name66">F6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key67" class="key black" data-value="F#6">
-                <span id="name67">F#6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key68" class="key white" data-value="G6">
-                <span id="name68">G6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key69" class="key black" data-value="G#6">
-                <span id="name69">G#6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key70" class="key white" data-value="A6">
-                <span id="name70">A6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key71" class="key black" data-value="A#6">
-                <span id="name71">A#6</span>
-                <span class="word2"></span>
-            </div>
-            <div id="key72" class="key white" data-value="B6">
-                <span id="name72">B6</span>
-                <span class="word2"></span>
-            </div>
+        <div id="key51" class="key white" data-value="D5">
+            <span id="name51">D5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key52" class="key black" data-value="D#5">
+            <span id="name52">D#5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key53" class="key white" data-value="E5">
+            <span id="name53">E5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key54" class="key white" data-value="F5">
+            <span id="name54">F5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key55" class="key black" data-value="F#5">
+            <span id="name55">F#5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key56" class="key white" data-value="G5">
+            <span id="name56">G5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key57" class="key black" data-value="G#5">
+            <span id="name57">G#5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key58" class="key white" data-value="A5">
+            <span id="name58">A5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key59" class="key black" data-value="A#5">
+            <span id="name59">A#5</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key60" class="key white" data-value="B5">
+            <span id="name60">B5</span>
+            <span class="word2"></span>
+        </div>
 
-            <div id="key73" class="key white" data-value="C7">
+        <div id="key61" class="key white" data-value="C6">
 
-                <span id="name73"> C7</span>
-                <span class="word2"></span>
+            <span id="name61">C6</span>
+            <span class="word2"></span>
 
-            </div>
+        </div>
+        <div id="key62" class="key black" data-value="C#6">
+            <span id="name62">C#6</span>
+            <span class="word2"></span>
+        </div>
+
+
+        <div id="key63" class="key white" data-value="D6">
+            <span id="name63">D6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key64" class="key black" data-value="D#6">
+            <span id="name64">D#6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key65" class="key white" data-value="E6">
+            <span id="name65">E6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key66" class="key white" data-value="F6">
+            <span id="name66">F6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key67" class="key black" data-value="F#6">
+            <span id="name67">F#6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key68" class="key white" data-value="G6">
+            <span id="name68">G6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key69" class="key black" data-value="G#6">
+            <span id="name69">G#6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key70" class="key white" data-value="A6">
+            <span id="name70">A6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key71" class="key black" data-value="A#6">
+            <span id="name71">A#6</span>
+            <span class="word2"></span>
+        </div>
+        <div id="key72" class="key white" data-value="B6">
+            <span id="name72">B6</span>
+            <span class="word2"></span>
+        </div>
+
+        <div id="key73" class="key white" data-value="C7">
+
+            <span id="name73"> C7</span>
+            <span class="word2"></span>
 
         </div>
 
-        <div class="Mode">
+    </div>
 
-            <div class="switch">
+    <div class="Mode">
 
-                <label class="UI-text" for="uls">Mode Switch</label>
-                <div class="changemode" style=""></div>
+        <div class="switch">
 
-                <ul id="uls">
+            <label class="UI-text" for="uls">Mode Switch</label>
+            <div class="changemode" style=""></div>
 
-                    <li class="btn" style="z-index:2; color:white;">free</li>
-                    <li class="btn" style="z-index:2;">scale</li>
-                    <li class="btn" style="z-index:2;">interval</li>
+            <ul id="uls">
 
+                <li class="btn" style="z-index:2; color:white;" onmouseover="hint_event('Display and record notes to score when playing.','visible');" onmouseout="hint_event('','collapse')">free</li>
+                <li class="btn" style="z-index:2;" onmouseover="hint_event('Show scales on score.','visible');" onmouseout="hint_event('','collapse')">scale</li>
+                <li class="btn" style="z-index:2;" onmouseover="hint_event('Calculate intervals when two keys are pressed.','visible');" onmouseout="hint_event('','collapse')">interval</li>
+
+
+
+            </ul>
+
+        </div>
+        <div class="scale-select">
+
+            <div class="select-panel" id="panel" style="visibility:collapse;">
+                <ul class="dropdown">
+                    <label for="Tonic"><span class="UI-text" style=" color: white; margin-left: 0%;"> Tonic </span> </label>
+
+
+                    <select id="Tonic" class="select-list" style="letter-spacing:-2px; width:60px;">
+                        <option value="C">C</option>
+                        <option value="C#">C#</option>
+                        <option value="D♭">D♭</option>
+                        <option value="D">D</option>
+                        <option value="D#">D#</option>
+                        <option value="E♭">E♭</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="F#">F#</option>
+                        <option value="G♭">G♭</option>
+                        <option value="G">G</option>
+                        <option value="G#">G#</option>
+                        <option value="A♭">A♭</option>
+                        <option value="A">A</option>
+                        <option value="A#">A#</option>
+                        <option value="B♭">B♭</option>
+                        <option value="B">B</option>
+                    </select>
+
+                    <label for="Scale_type"><span class="UI-text" style=" color: white; margin-left: 0%;"> Select Scale </span></label>
+                    <select id="Scale_type" class="select-list" style="width:200px">
+                        <option value="Major">Major</option>
+                        <option value="minor">minor</option>
+                        <option value="Ionian">Ionian</option>
+                        <option value="Dorian">Dorian</option>
+                        <option value="Phrygian">Phrygian</option>
+                        <option value="Lydian">Lydian</option>
+                        <option value="Mixolydian">Mixolydian</option>
+                        <option value="Aeolian">Aeolian</option>
+                        <option value="Locrian">Locrian</option>
+                        <option value="Major Pentatonic">Major Pentatonic</option>
+                        <option value="minor Pentatonic">minor Pentatonic</option>
+                    </select>
+
+                    <button class="tab_btn" onclick="combineSelections();">Show Scale</button>
 
 
                 </ul>
 
-            </div>
-            <div class="scale-select">
 
-                <div class="select-panel" id="panel" style="visibility:collapse;">
-                    <ul class="dropdown">
-                        <label for="Tonic"><span class="UI-text" style=" color: white; margin-left: 0%;"> Tonic </span> </label>
-
-
-                        <select id="Tonic" class="select-list" style="letter-spacing:-2px; width:60px;">
-                            <option value="C">C</option>
-                            <option value="C#">C#</option>
-                            <option value="D♭">D♭</option>
-                            <option value="D">D</option>
-                            <option value="D#">D#</option>
-                            <option value="E♭">E♭</option>
-                            <option value="E">E</option>
-                            <option value="F">F</option>
-                            <option value="F#">F#</option>
-                            <option value="G♭">G♭</option>
-                            <option value="G">G</option>
-                            <option value="G#">G#</option>
-                            <option value="A♭">A♭</option>
-                            <option value="A">A</option>
-                            <option value="A#">A#</option>
-                            <option value="B♭">B♭</option>
-                            <option value="B">B</option>
-                        </select>
-
-                        <label for="Scale_type"><span class="UI-text" style=" color: white; margin-left: 0%;"> Select Scale </span></label>
-                        <select id="Scale_type" class="select-list" style="width:200px">
-                            <option value="Major">Major</option>
-                            <option value="minor">minor</option>
-                            <option value="Ionian">Ionian</option>
-                            <option value="Dorian">Dorian</option>
-                            <option value="Phrygian">Phrygian</option>
-                            <option value="Lydian">Lydian</option>
-                            <option value="Mixolydian">Mixolydian</option>
-                            <option value="Aeolian">Aeolian</option>
-                            <option value="Locrian">Locrian</option>
-                            <option value="Major Pentatonic">Major Pentatonic</option>
-                            <option value="minor Pentatonic">minor Pentatonic</option>
-                        </select>
-
-                        <button class="tab_btn" onclick="combineSelections();">Show Scale</button>
-
-
-                    </ul>
-
-
-
-                </div>
 
             </div>
 
         </div>
 
+    </div>
 
 
-        <div class="data">
-            <span id="word" style=" font-size: 30px;
+
+    <div class="data">
+        <span id="word" style=" font-size: 30px;
     margin-bottom: 50px;"></span>
-            <div class="stave">
-                <div class="staff-setting">
+        <div class="stave">
+            <div class="staff-setting">
 
-                    <div title="unsee sheet " class="clef-setting" id="visible" style=" margin-left:10px;font-size: 20px; width: 50px; background: linear-gradient(145deg, #ffffff, #e6e6e6); box-shadow: 3px 3px 6px #e3e3e3, -5px -5px 10px #ffffff;" onclick="show_staff();">
-                        <img id="eye" src="hide.svg" style="filter:invert(0.8);" />
-                        <!--<a href="https://www.flaticon.com/free-icons/document" title="document icons">Document icons created by Freepik - Flaticon</a>-->
-                    </div>
-
-                    <div class="clef-setting" style="width:100px">
-                        <div class="switch change" id="change01" data-value="bass" onclick=" change_clef(this);">𝄢 </div>
-                        <div class="switch change" id="change02" style="color:#fff; background:linear-gradient(145deg, #809bb1, #6c8395);" data-value="treble" onclick=" change_clef(this);">𝄞</div>
-                    </div>
-
-                    <div class="clef-setting" style="font-size: 20px; width: 50px; background: linear-gradient(145deg, #ffffff, #e6e6e6); box-shadow: 3px 3px 6px #e3e3e3, -5px -5px 10px #ffffff;" onclick="write_or_not(this);">
-                        <img id="write" src="write.svg" style="filter:invert(0.8);" />
-                        <!--<a href="https://www.flaticon.com/free-icons/document" title="document icons">Document icons created by Freepik - Flaticon</a>-->
-                    </div>
-                    <label for="note-length" style="margin-left:6%; font-size:20px;"> ♩</label>
-                    <div class="clef-setting" style="width:180px; height:30px; margin-left:3px;">
-                        <select id="note-length" onchange="change_length();" class="select-list" style="width: 100%; height: 100%; box-shadow: none; border: none; font-size: 20px; color: grey; ">
-
-                            <option value="1">Quarter note </option>
-                            <option value="0.5"> Eighth note </option>
-                            <option value="1.5">Dotted note  </option>
-                            <option value="2">Half note  </option>
-                            <option value="4">Whole note </option>
-
-                        </select>
-                    </div>
-
-
-                    <div class="clef-setting" style="width:100px">
-                        <div class="switch change" id="b" style=" font-size: 20px; padding: 10px 0px 10px 0px;" onclick=" change_b(this);">♭ </div>
-                        <div class="switch change" id="#" style="color: #fff; background: linear-gradient(145deg, #809bb1, #6c8395); font-size: 20px; padding:10px 0px 10px 0px;" onclick=" change_b(this);">#</div>
-                    </div>
-
-
-                    <button class="clear" id="clear" onclick="clear_staff();">
-                        <img id="write" src="bin.svg" style="filter:invert(0.8);" />
-                        <!--<a href="<a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Ilham Fitrotul Hayat - Flaticon</a>-->
-                    </button>
-
-
+                <div title="unsee sheet " class="clef-setting" id="visible" style=" margin-left:10px;font-size: 20px; width: 50px; background: linear-gradient(145deg, #ffffff, #e6e6e6); box-shadow: 3px 3px 6px #e3e3e3, -5px -5px 10px #ffffff;" onclick="show_staff();">
+                    <img id="eye" src="hide.svg" style="filter:invert(0.8);" />
+                   
                 </div>
 
-                <div class="target-staff" id="target">
-
-
-
-
-                    <p style="color:grey;font-size:20px; margin-left:30px;align-content:center;">press 'T' on keyboard to start</p>
-
-
+                <div class="clef-setting" style="width:100px" onmouseover="hint_event('Change clefs','visible');" onmouseout="hint_event('','collapse')">
+                    <div class="switch change" id="change01" data-value="bass" onclick=" change_clef(this);">𝄢 </div>
+                    <div class="switch change" id="change02" style="color:#fff; background:linear-gradient(145deg, #809bb1, #6c8395);" data-value="treble" onclick=" change_clef(this);">𝄞</div>
                 </div>
 
-                <!--<div id="now" style="position:absolute; width:20px;height:20px; top:20px;left:90px;  background:red; z-index:3;"></div>-->
+                <div class="clef-setting" style="font-size: 20px; width: 50px; background: linear-gradient(145deg, #ffffff, #e6e6e6); box-shadow: 3px 3px 6px #e3e3e3, -5px -5px 10px #ffffff;" onclick="write_or_not(this);" onmouseover="hint_event('Activate/Disable record mode.','visible');" onmouseout="hint_event('','collapse')">
+                    <img id="write" src="write.svg" style="filter:invert(0.8);" />
+                   
+                </div>
+                <label for="note-length" style="margin-left:6%; font-size:20px;"> ♩</label>
+                <div class="clef-setting" style="width:180px; height:30px; margin-left:3px;" onmouseover="hint_event('Change note length when recording.','visible');" onmouseout="hint_event('','collapse')">
+                    <select id="note-length" onchange="change_length();" class="select-list" style="width: 100%; height: 100%; box-shadow: none; border: none; font-size: 20px; color: grey; ">
 
-                <div id="start" style=" width:100%;  height:30px;" onmouseover="abc_changed(); " onmouseclick="playbackload(true);  "> </div>
+                        <option value="1">Quarter note </option>
+                        <option value="0.5"> Eighth note </option>
+                        <option value="1.5">Dotted note  </option>
+                        <option value="2">Half note  </option>
+                        <option value="4">Whole note </option>
+
+                    </select>
+                </div>
+
+
+                <div class="clef-setting" style="width:100px" onmouseover="hint_event('Change sharp/flat of black keys.','visible');" onmouseout="hint_event('','collapse')">
+                    <div class="switch change" id="b" style=" font-size: 20px; padding: 10px 0px 10px 0px;" onclick=" change_b(this);">♭ </div>
+                    <div class="switch change" id="#" style="color: #fff; background: linear-gradient(145deg, #809bb1, #6c8395); font-size: 20px; padding:10px 0px 10px 0px;" onclick=" change_b(this);">#</div>
+                </div>
+
+
+                <button class="clear" id="clear" onclick="clear_staff();" onmouseover="hint_event('Clear score.','visible');" onmouseout="hint_event('','collapse')">
+                    <img id="write" src="bin.svg" style="filter:invert(0.8);" />
+                    <!--<a href="<a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Ilham Fitrotul Hayat - Flaticon</a>-->
+                </button>
+
 
             </div>
 
+            <div id="tips" style="position: absolute; top: 50px; height: 80%; width: 99%; padding: 5px; opacity: 0.6; background-color: black; position: absolute; z-index: 7; box-shadow: 0 0 20px rgba(16, 0, 54, 0.2); ">
+                <div style="position: absolute; top: 4px; height: 30px; width: 30px; padding: 0px; border: 1px solid white; border-radius: 10px; color: white; align-content: center; text-align: center; cursor: pointer; align-items: center; " title="close tips" onclick="document.getElementById('tips').style.visibility='hidden';">
+                    X
+                </div>
+                <div style="position: absolute; top: 40px; height: 80%; width: 99%; padding: 3px;color:white; align-content:center;  align-items:center; text-align:left; line-height:25px;">
+                    
+                    <p>
+                        <b>Score tips:</b> <br />
+                        1. Press on the computer keyboard to enter notes. <br />
+                        2. Press <b>"Space"</b> on computer keyboard to insert <b>"rest" sign </b>. <br />
+                        3. Press <b>"\" </b> (Backslash) on computer keyboard to insert <b>bar line </b>.<br />
+                        4. Press <b>"Backspace"</b> on computer keyboard to <b> delete the last note or sign</b>.<br />
+                        5. Click on notes to play the pitch.
 
-            <div class="chord">
-                <div class="labels" style="font-family:Arial, Helvetica, sans-serif; color: var(--panel-color);">
-                    <!--<div class="labels" style="width: 225px;">-->
-                    <label id="blackboard" for="show_chord" style="margin-left:10px;">  Disable Blackboard</label>
-                    <div class="toggles"><input type="checkbox" id="show_chord" onclick="Enable_blackboard();"></div>
-                    <!--</div>
+                    </p>
+                </div>
+            </div>
+
+            <div class="target-staff" id="target">
+
+
+
+
+                <p style="color:grey;font-size:20px; margin-left:30px;align-content:center;">press 'T' on keyboard to start</p>
+
+
+            </div>
+
+            <!--<div id="now" style="position:absolute; width:20px;height:20px; top:20px;left:90px;  background:red; z-index:3;"></div>-->
+
+            <div id="start" style=" width:100%;  height:30px;" onmouseover="abc_changed(); " onmouseclick="playbackload(true);  "> </div>
+
+        </div>
+
+
+        <div class="chord">
+            <div class="labels" style="font-family: Arial, Helvetica, sans-serif; color: var(--panel-color); font-weight: 100;">
+                <!--<div class="labels" style="width: 225px;">-->
+                <label id="blackboard" for="show_chord" style="margin-left:10px; font-weight:100;">  Disable Blackboard</label>
+                <div class="toggles"><input type="checkbox" id="show_chord" onclick="Enable_blackboard();"></div>
+                <!--</div>
 
 
                 <div class="labels" style=" width: 215px; font-family: Arial, Helvetica, sans-serif; color: var(--panel-color); ">-->
-                    Font Size   <input type="range" class="range" min="40" max="100"
-                                       id="slider" value="50" onchange="TextSizeUpdate(this.value);" />
-                    <!--</div>-->
-                </div>
-
-                <span class="display_word" id="chord" style="font-size: 40px; margin-left: 20px; margin-top: 1px;"></span>
-                <span class="display_word" id="second_chord" style=" font-size: 40px; margin-left: 20px; color:black;">This board will show chords or scales</span>
-                <!--<span style=" font-size: 20px; margin-left: 10px; color:grey;">This board will show chords or scales</span>-->
+                Font Size   <input type="range" class="range" min="40" max="100"
+                                   id="slider" value="50" onchange="TextSizeUpdate(this.value);" />
+                <!--</div>-->
             </div>
 
+            <span class="display_word" id="chord" style="font-size: 40px; margin-left: 20px; margin-top: 1px; font-weight: 100;"></span>
+            <span class="display_word" id="second_chord" style=" font-size: 40px; margin-left: 20px; color:black; font-weight:100;">This board will show chords or scales</span>
+            <!--<span style=" font-size: 20px; margin-left: 10px; color:grey;">This board will show chords or scales</span>-->
         </div>
-        <div onclick="window.print(this)" class="clear" style=" background:white;width:150px; height:30px; margin-left:150px;  color:grey;"> print score </div>
+
+    </div>
+
+    <div class="clear" style=" background:white;width:150px; height:30px; margin-left:150px;  color:grey; "  onclick="document.getElementById('tips').style.visibility='visible';"> Score tips</div>
+    <div onclick="window.print(this)" class="clear" style=" background:white;width:150px; height:30px; margin-left:50px;  color:grey;"> print score </div>
 
 
 
 
 
-        <script type="text/javascript" src="UI.js"></script>
-        <script type="text/javascript" src="chord_detect.js"></script>
+    <script type="text/javascript" src="UI.js"></script>
+    <script type="text/javascript" src="chord_detect.js"></script>
 
-        <!--<script type="text/javascript" src="audio_play_back.js"></script>-->
+    <!--<script type="text/javascript" src="audio_play_back.js"></script>-->
 
-        <script></script>
+    <script></script>
 
 </body>
 </html>
