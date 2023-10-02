@@ -134,6 +134,7 @@ function getMIDIMessage(midiAccess) {
 }
 
 function Chord_detect() {
+    NowChord.sort();
     
     for (let i = 0; i < NowChord.length; i++) {
 
@@ -175,7 +176,7 @@ function Chord_detect() {
         //}
         //if (NowChord[i] % 12 == 11) { Nownote[i] = "B"; }
     }
-   // console.log(Nownote);
+  console.log(Nownote);
 
     show = Tonal.Chord.detect(Nownote, { assumePerfectFifth: true });
    
@@ -247,17 +248,17 @@ function interval_cal(cal) {
 
 
 
-var Ionian=[0,2,4,5,7,9,11];
-var Dorian = [0, 2, 3, 5, 7, 9, 10];
-var Phrygian = [0,1,3,5,7,8,10]; 
-var Lydian = [0, 2, 4, 6, 7, 9, 11];
-var Mixolydian = [0,2,4,5,7,9,10];
-var Aeolian = [0, 2, 3, 5, 7, 8, 10];
-var Locrian = [0, 1, 3, 5, 6, 8, 10];
-var M_pen = [0, 2, 4, 7, 9];
-var minor_pen = [0, 3, 5, 7, 10];
-var Major = [0, 2, 4, 5, 7, 9, 11];
-var minor = [0, 2, 3, 5, 7, 8, 10 ];
+var Ionian=[0,2,4,5,7,9,11,12];
+var Dorian = [0, 2, 3, 5, 7, 9, 10,12];
+var Phrygian = [0,1,3,5,7,8,10,12]; 
+var Lydian = [0, 2, 4, 6, 7, 9, 11,12];
+var Mixolydian = [0,2,4,5,7,9,10,12];
+var Aeolian = [0, 2, 3, 5, 7, 8, 10,12];
+var Locrian = [0, 1, 3, 5, 6, 8, 10,12];
+var M_pen = [0, 2, 4, 7, 9,12];
+var minor_pen = [0, 3, 5, 7, 10,12];
+var Major = [0, 2, 4, 5, 7, 9, 11,12];
+var minor = [0, 2, 3, 5, 7, 8, 10 ,12];
 var nameText = [];
 
 
@@ -275,7 +276,8 @@ function call_Scale(start_note, type) {
 
     switch (type) {
         case "Major":
-            getNotesbyname = Tonal.Mode.get("Major").intervals.map(Tonal.Note.transposeFrom(start_note+"4"));
+            getNotesbyname = Tonal.Mode.get("Major").intervals.map(Tonal.Note.transposeFrom(start_note + "4"));
+            
             how_many = Major;
            
             break;
@@ -334,7 +336,7 @@ function call_Scale(start_note, type) {
 
     }
 
-
+    getNotesbyname.push(start_note + "5");
 
     
     
