@@ -301,25 +301,27 @@ document.addEventListener('keyup', function (event) {
 
     if (event.code === "Backslash") {
 
+        if (staff_switch == true && edit_notes == true) {
+            recorder.push(" " + '|' + " "); abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
 
-      recorder.push(" " +'|' + " ");
-        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
+            load();} else { recorder.push(""); }
+        //abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
 
-        load();
+        //load();
 
     }
 
     if (event.key === " ") {
 
+        if (staff_switch == true && edit_notes == true) {
+            recorder.push(" " + 'z' + longer + " "); abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
 
-        recorder.push(" " + 'z' + longer+" ");
-        abcString = "X: 1 T: \nV: 1 " + "clef = " + clef_type + " \n K: \n" + recorder.join('') + writer;
-
-        load();
+            load();
+        }   else { recorder.push(""); }
+       
 
     }
   
     console.log(abcString);
 
 },false);
-
