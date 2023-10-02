@@ -1,4 +1,5 @@
-﻿let teaching_Modes = 0;
+
+let teaching_Modes = 0;
 let staff_switch= false;/// staff record or not
 let ScaleMode;
 let markerpicker ="red";
@@ -270,7 +271,8 @@ function change_length() {
 
     longer = length_switch.value * 2;
     if (longer == 2) { tone_length = "8n"; }// quarter note
-    else if (longer == 1) { tone_length = "16n"; longer = "1" + " ";} //eighth note
+    else if (longer == 1) { tone_length = "16n"; longer = "1" + " " } //eighth note
+
     else if (longer == 4) { tone_length = "4n"; }  //half
 
     else if (longer == 8) { tone_length = "2n"; } // whole
@@ -312,8 +314,8 @@ const change_mode = document.querySelectorAll(".changemode");
         ScaleDisable();
         pianoResume();
         ScaleMode = false;
-        _interval = false; 
-        Chord_txt.innerHTML = "";        
+        _interval = false;
+        Chord_txt.innerHTML = "";
         mode_switch[0].style.color = "white"
         mode_switch[1].style.color = "#7891a5"
         change_mode[0].style.transform = "none";
@@ -334,7 +336,7 @@ const change_mode = document.querySelectorAll(".changemode");
         pianoResume();
         teaching_Modes = 2;
         ScaleMode = true;
-        _interval = false;        
+        _interval = false;
         Chord_txt.innerHTML = "";
         document.getElementById('second_chord').innerHTML = '';
         mode_switch[1].style.color = "white"
@@ -372,7 +374,7 @@ mode_switch[2].addEventListener('click', function () {
     mode_switch[1].style.color = "#7891a5"
     change_mode[0].style.transform = "translateX(180px)";
     edit_notes = false;
-
+    document.getElementById("panel").style.visibility = "collapse";
     document.getElementById("clear").disabled = true;
 
 
@@ -463,6 +465,47 @@ function make_sheet(test_notes) {
     //console.log(test_notes.substr(-3, 1) + "b"+test_notes.substr(-1,1));
 }
 
+//function getmidi() {
+//    var midi = ABCJS.synth.getMidiFile("T: Cooley's\n" +
+//			"M: 4/4\n" +
+//        "L: 1/8\n" +
+//        "R: reel\n" +
+//        "K: Emin\n" +
+//        "|:D2|EB{c}BA B2 EB|~B2 AB dBAG|FDAD BDAD|FDAD dAFD|\n" +
+//        "EBBA B2 EB|B2 AB defg|afe^c dBAF|DEFD E2:|\n" +
+//        "|:gf|eB B2 efge|eB B2 gedB|A2 FA DAFA|A2 FA defg|\n" +
+//        "eB B2 eBgB|eB B2 defg|afe^c dBAF|DEFD E2:|";, { chordsOff: true, midiOutputType: "encoded" });
+//    document.getElementById("midi-link").setAttribute("html", midi);
+//}
+
+
+//var cursor = createCursor();
+
+
+function hint_event(str,popup) {
+
+    var e = window.event;
+    var positionX = e.clientX;
+    var positionY = e.clientY;
+    var div=document.getElementById("hintdiv");
+    div.style.width = 200+"px";
+    //div.style.height = 50+"px";
+
+    div.style.background = "black";
+    div.style.color = "white";
+    div.style.opacity = "0.8";
+
+    div.innerHTML = str;
+    div.style.position = "absolute";
+    div.style.left = (positionX+100)+"px";
+    div.style.top = (positionY + 50) + "px";
+    div.style.translateX = (positionX+50) + "px";
+    div.style.translateY = (positionY+50) + "px";
+   // console.log(positionX, positionY);
+
+    div.style.visibility = (popup);
+
+}
 
 
 
